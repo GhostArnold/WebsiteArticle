@@ -19,6 +19,11 @@ app.use(cors());
 //  Эта строка подключает middleware, который позволяет вашему приложению обрабатывать JSON-формат запросов.
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  // Выводим json строку
+  return res.json({ message: 'All is fine' });
+});
+
 // Так как все операции с базой данных являются ассинхронными
 async function start() {
   try {
