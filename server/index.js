@@ -5,6 +5,8 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 // Для устранения конфликтов между разными доменами
 import cors from 'cors';
+// Импортируем роут
+import authRoute from './routes/auth.js';
 
 const app = express();
 // Загрузка env переменных из .env файла
@@ -18,6 +20,9 @@ const PORT = parseInt(process.env.PORT) || 3001; // ППорт из .env или 
 app.use(cors());
 //  Эта строка подключает middleware, который позволяет вашему приложению обрабатывать JSON-формат запросов.
 app.use(express.json());
+
+// Routes
+app.use('/api/auth', authRoute);
 
 app.get('/', (req, res) => {
   // Выводим json строку
