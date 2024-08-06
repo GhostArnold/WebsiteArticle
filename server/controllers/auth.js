@@ -103,8 +103,30 @@ export const login = async (req, res) => {
 // Функция получения информации о текущем пользователе
 export const getMe = async (req, res) => {
   try {
-    // Логика получения информации о текущем пользователе будет реализована здесь
+    const user = await User.findById(req.userId);
+
+    if (!user) {
+      return res.json({
+        message: 'Такого юзера нет',
+      });
+    }
+
+    const token = jwt.sign(
+      {
+        id: user._id,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '30d' } // Токен будет действовать 30 дней
+    );
+    res.json({
+      user,
+      token,
+    });
   } catch (error) {
     // Обрабатываем возможные ошибки
+    console.error(error);
+    res.status(500).json({
+      message: 'Произошла ошибка при получении данных о пользователе',
+    });
   }
 };
